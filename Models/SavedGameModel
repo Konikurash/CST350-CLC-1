@@ -1,0 +1,32 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MinesweeperCLC.Models;
+using CLC_Proj.Models;
+
+namespace CLC_Proj.Models
+{
+    public class SavedGameModel
+    {
+
+        public string user {get; set;}
+
+        public Board currentgame { get; set; }
+        public DateTime time { get; set; }
+        public int ID { get; set; }
+
+        public SavedGameModel()
+        {
+
+        }
+
+        public SavedGameModel(UserModel user,Board currentGame,DateTime, int id)
+        {
+            this.user = user.userName;
+            this.currentgame = currentGame;
+            this.time = DateTime.Now;
+            this.ID = id;
+        }
+    }
+}
