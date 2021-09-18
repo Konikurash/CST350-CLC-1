@@ -1,0 +1,64 @@
+using CLC_Proj.Models;
+using MinesweeperCLC.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CLC_Proj.Services
+{
+    public class SavedGameDAO
+    {
+        string connectionString = @""; // Whatever the connection string is for the database.
+
+        public List<SavedGameModel> AllSavedGames()
+        {
+            List<SavedGameModel> savedGames = new List<SavedGameModel>();
+            string sql = "SELECT * from dbo.SavedGames"; //Have not yet made data table
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                        while (reader.Read())
+                    {
+                        savedGames.Add(new SavedGameModel((UserModel)reader[0], (Board)reader[1], (DateTime)reader[2], (int)reader[3]));
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            return savedGames;
+        }
+        public List<SavedGameModel> searchGame(int gameID)
+        {
+            List<SavedGameModel> savedGames = new List<SavedGameModel>();
+            string sql = "SELECT * from dbo.SavedGames where ID LIKE @ID"; //Have not yet made data table
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        savedGames.Add(new SavedGameModel((UserModel)reader[0], (Board)reader[1], (DateTime)reader[2], (int)reader[3]));
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            return savedGames;
+        }
+    }
+}
